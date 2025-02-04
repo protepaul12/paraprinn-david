@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regalito Lessa</title>
+    <title>Regalito Mágico</title>
     <style>
         body {
             margin: 0;
@@ -11,134 +11,140 @@
             font-family: Arial, sans-serif;
             text-align: center;
             overflow: hidden;
-            background-color: #ffe6e6;
+            background-color: black;
         }
 
-        /* Pantalla de inicio */
+        /* Efecto de portal mágico */
         .pantalla-inicio {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: #ffccd5;
+            background-color: black;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-in-out;
+            animation: abrirPortal 2s forwards;
+            clip-path: circle(0% at 50% 50%);
         }
 
-        .pantalla-inicio h1 {
-            font-size: 32px;
-            color: #d63384;
+        @keyframes abrirPortal {
+            0% { clip-path: circle(0% at 50% 50%); }
+            100% { clip-path: circle(150% at 50% 50%); }
         }
 
-        .boton-inicio {
-            background-color: #ff4d6d;
+        /* Partículas flotantes */
+        .particula {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: flotar 5s infinite alternate ease-in-out;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-50px); opacity: 0.4; }
+        }
+
+        /* Mensaje */
+        .mensaje {
+            font-size: 28px;
             color: white;
-            border: none;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Botón mágico */
+        .boton-inicio {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
             padding: 15px 30px;
             font-size: 20px;
             cursor: pointer;
             border-radius: 10px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-            opacity: 0; /* Inicialmente oculto */
+            transition: 0.3s;
+            animation: brillo 1.5s infinite alternate ease-in-out;
             position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: aparecer 1s forwards; /* Animación de aparición */
+            top: 70%;
+        }
+
+        @keyframes brillo {
+            0% { box-shadow: 0 0 10px white; }
+            100% { box-shadow: 0 0 20px white; }
         }
 
         .boton-inicio:hover {
-            background-color: #d63384;
+            background-color: white;
+            color: black;
         }
 
-        .mensaje {
-            font-size: 40px;
-            font-weight: bold;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: aparecer 1s forwards;
+        /* Fondo del video */
+        #videoContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s;
         }
 
-        /* Pétalos animados */
-        .petalo {
-            position: absolute;
-            font-size: 30px;
-            color: #ff4d6d;
-            animation: caer 5s linear infinite;
+        #videoContainer iframe {
+            width: 80%;
+            height: 80%;
+            border: none;
         }
 
-        @keyframes caer {
-            0% {
-                transform: translateY(-10vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes aparecer {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
     </style>
 </head>
 <body>
 
     <!-- Pantalla de inicio -->
     <div class="pantalla-inicio" id="pantallaInicio">
-        <img src="https://postimg.cc/SXTvxs8w" alt="Imagen principal" style="width: 100%; height: 100%; object-fit: cover;">
-        <div class="mensaje">Regalito 👇</div> <!-- Texto en lugar del dedo -->
-        <button class="boton-inicio" onclick="mostrarRosal()">Abrir Regalito 💝</button>
-        <h1>🎁 Regalito Lessa 🎁</h1>
+        <div class="contenido">
+            <p class="mensaje">✨ Amor, te dejo un pequeño regalo mágico ✨</p>
+            <button class="boton-inicio" onclick="mostrarVideo()">Abrir regalo 🎁</button>
+        </div>
     </div>
 
-    <!-- Contenido con las rosas en pantalla completa -->
-    <div class="contenido" id="contenido">
-        <div class="rosas-container">
-            <img class="rosa" src="https://i.pinimg.com/736x/90/1a/d7/901ad7aa54f50bc7e8f21e69ba38c35e.jpg" alt="Rosa 1">
-            <img class="rosa" src="https://i.pinimg.com/736x/e1/36/b7/e136b7474cfdc545f09c62123d6be82f.jpg" alt="Rosa 2">
-            <img class="rosa" src="https://i.pinimg.com/736x/ab/8f/62/ab8f624074a94c1766da3bd7c16a6c2c.jpg" alt="Rosa 3">
-        </div>
-        <div class="mensaje">🌹✨Te lo mereces mi amorcito ✨🌹</div>
+    <!-- Contenedor del video -->
+    <div id="videoContainer">
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/3mPXwuPc650?autoplay=1" allow="fullscreen"></iframe>
     </div>
 
     <script>
-        function mostrarRosal() {
-            // Oculta la pantalla de inicio con un efecto de desvanecimiento
+        function mostrarVideo() {
             document.getElementById("pantallaInicio").style.opacity = "0";
             setTimeout(() => {
                 document.getElementById("pantallaInicio").style.display = "none";
-                document.getElementById("contenido").style.display = "block";
+                document.getElementById("videoContainer").style.display = "flex";
             }, 1000);
-
-            // Comienza la animación de los pétalos cayendo
-            setInterval(crearPetalo, 500);
         }
 
-        function crearPetalo() {
-            const petalo = document.createElement("div");
-            petalo.classList.add("petalo");
-            petalo.innerHTML = "🌹";
-            petalo.style.left = Math.random() * window.innerWidth + "px"; 
-            petalo.style.top = "-10px"; 
-            petalo.style.animationDuration = (Math.random() * 3 + 2) + "s";
-            document.body.appendChild(petalo);
+        // Crear partículas flotantes
+        function crearParticula() {
+            const particula = document.createElement("div");
+            particula.classList.add("particula");
+            particula.style.left = Math.random() * 100 + "vw";
+            particula.style.top = Math.random() * 100 + "vh";
+            particula.style.animationDuration = Math.random() * 3 + 3 + "s";
+            document.body.appendChild(particula);
 
-            // Eliminar el pétalo después de que caiga
             setTimeout(() => {
-                petalo.remove();
-            }, 5000);
+                particula.remove();
+            }, 6000);
         }
+
+        // Generar partículas continuamente
+        setInterval(crearParticula, 500);
     </script>
 
 </body>
